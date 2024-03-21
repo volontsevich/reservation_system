@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "Reservations", type: :request do
-  describe "POST /restaurants/:restaurant_id/reservations" do
+  describe "POST /api/v1/restaurants/:restaurant_id/reservations" do
     let(:restaurant) { FactoryBot.create(:restaurant) }
     let!(:table) { FactoryBot.create(:table, restaurant: restaurant) }
     let(:valid_attributes) {
@@ -10,14 +10,14 @@ RSpec.describe "Reservations", type: :request do
 
     it "creates a new Reservation" do
       expect {
-        post restaurant_reservations_path(restaurant), params: valid_attributes
+        post api_v1_restaurant_reservations_path(restaurant), params: valid_attributes
       }.to change(Reservation, :count).by(1)
 
       expect(response).to have_http_status(:created)
     end
   end
 
-  describe "POST /restaurants/:restaurant_id/reservations" do
+  describe "POST /api/v1/restaurants/:restaurant_id/reservations" do
     let(:restaurant) { FactoryBot.create(:restaurant) }
     let(:occupied_table) {
       FactoryBot.create(:table, restaurant: restaurant, seats_amount: Table::MIN_SEATS_AMOUNT)
@@ -31,7 +31,7 @@ RSpec.describe "Reservations", type: :request do
 
     it "does not create a reservation when no tables are available" do
       expect {
-        post restaurant_reservations_path(restaurant), params: conflicting_attributes
+        post api_v1_restaurant_reservations_path(restaurant), params: conflicting_attributes
       }.not_to change(Reservation, :count)
 
       expect(response).to have_http_status(:unprocessable_entity)
