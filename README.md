@@ -159,4 +159,33 @@ Execute the following command to run the test suite:
 
 ```
 docker compose run --rm web rspec
+
+docker compose run --rm web rspec './spec/requests/api/v2/reservations_spec.rb'
 ```
+
+### Versions and assignment strategies
+
+#### V1
+
+**Simple assignment logic**: This version implements a straightforward check to ensure at least one table is available
+without reservations for the requested start time and duration. It selects the table with the smallest number of seats
+that can accommodate the party size.
+
+#### V2
+
+**Enhanced Assignment Logic**: Building on V1, this version adjusts the reservation's start time to align with the
+restaurant's opening hours and searches for any available time slot before the restaurant closes. The start time of the
+reservation may be adjusted to find an available table if none are free for the initially requested time and duration.
+
+#### V3
+
+**To Be Determined**: Potential enhancements to the V2 logic include:
+
+- **Combining Tables for Larger Parties**: An approach to assemble a set of smaller, free tables to accommodate large
+  parties as soon as possible, rather than waiting for a larger table to become available. This method, however, would
+  require significant changes to the database and model relationships, rendering V1 and V2 obsolete and requiring
+  substantial development effort to maintain compatibility.
+- **Queue Logic for Reservation Requests**: Introducing a queue system to manage reservation requests with some delay,
+  allowing for more efficient utilization of table seating capacity. This system would require integrating a queue
+  service (e.g., RabbitMQ) and creation of the frontend application with WebSockets for receiving delayed reservation
+  notifications. 
