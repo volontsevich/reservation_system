@@ -1,4 +1,7 @@
 class Reservation < ApplicationRecord
+  STANDARD_BOOKING_TIME = 1.hour.in_seconds
+  BOOKING_FREQUENCY = 15.minutes
+
   belongs_to :table
 
   validates :party_size, :start_time, :end_time, presence: true
