@@ -41,17 +41,91 @@ docker compose run web --rm rails db:create
 docker compose run web --rm rails db:migrate
 docker compose run web --rm rails db:seed
 docker compose up
-
 ```
 
 This command builds the Docker image for the application and starts the services defined in the docker-compose.yml file.
 
 ### API Endpoints
 
-- List Restaurants: `GET http://localhost:3000/restaurants`
-- Create Reservation: `POST http://localhost:3000/restaurants/:restaurant_id/reservations`
-    - Body: { "party_size": 4, "start_time": "2024-03-20T19:00:00Z", "duration": 3600 }
-- List Occupied Tables: `GET http://localhost:3000/restaurants/:restaurant_id/tables/occupied?time=2024-03-11T16:28:08.000Z`
+#### List Restaurants:
+
+- **GET** `http://localhost:3000/restaurants`
+
+**Example Request:**
+
+```bash
+curl -X GET http://localhost:3000/restaurants
+```
+
+**Example Response:**
+
+```json
+[
+  {
+    "id": 1,
+    "name": "The Gourmet Kitchen"
+  },
+  {
+    "id": 2,
+    "name": "Cafe Delight"
+  }
+]
+```
+
+#### Create Reservation:
+
+- **POST** `http://localhost:3000/restaurants/:restaurant_id/reservations`
+
+**Example Request:**
+
+```bash
+curl -X POST http://localhost:3000/restaurants/1/reservations \
+     -H "Content-Type: application/json" \
+     -d '{"party_size": 4, "start_time": "2024-03-20T19:00:00Z", "duration": 3600}'
+```
+
+**Example Response:**
+
+```json
+{
+  "id": 1,
+  "restaurant_id": 1,
+  "table_id": 5,
+  "party_size": 4,
+  "start_time": "2024-03-20T19:00:00Z",
+  "end_time": "2024-03-20T20:00:00Z"
+}
+```
+
+#### List Occupied Tables:
+
+- **GET** `http://localhost:3000/restaurants/:restaurant_id/tables/occupied?time=2024-03-11T16:28:08.000Z`
+
+**Example Request:**
+
+```bash
+curl -X GET "http://localhost:3000/restaurants/1/tables/occupied?time=2024-03-11T16:28:08.000Z"
+```
+
+**Example Response:**
+
+```json
+[
+  {
+    "table_id": 5,
+    "table_number": 10,
+    "seats_amount": 4,
+    "reservations": [
+      {
+        "reservation_id": 1,
+        "start_time": "2024-03-11T15:00:00Z",
+        "end_time": "2024-03-11T17:00:00Z",
+        "party_size": 4
+      }
+    ]
+  }
+]
+```
 
 ### Testing Approach
 
