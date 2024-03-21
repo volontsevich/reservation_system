@@ -1,8 +1,8 @@
 FactoryBot.define do
   factory :reservation do
-    table { nil }
-    party_size { 1 }
-    start_time { "2024-03-21 00:08:31" }
-    duration { 1 }
+    association :table
+    party_size { Faker::Number.between(from: Table::MIN_SEATS_AMOUNT, to: Table::MAX_SEATS_AMOUNT) }
+    start_time { 1.hour.from_now }
+    end_time { 2.hours.from_now }
   end
 end
