@@ -66,12 +66,12 @@ docker compose run --rm web rails c`
 
 #### List Restaurants:
 
-- **GET** `http://localhost:3000/api/v1/restaurants`
+- **GET** `http://localhost:3000/api/v2/restaurants`
 
 **Example Request:**
 
 ```bash
-curl -X GET http://localhost:3000/api/v1/restaurants
+curl -X GET http://localhost:3000/api/v2/restaurants
 ```
 
 **Example Response:**
@@ -91,12 +91,12 @@ curl -X GET http://localhost:3000/api/v1/restaurants
 
 #### Create Reservation:
 
-- **POST** `http://localhost:3000/api/v1/restaurants/:restaurant_id/reservations`
+- **POST** `http://localhost:3000/api/v2/restaurants/:restaurant_id/reservations`
 
 **Example Request:**
 
 ```bash
-curl -X POST http://localhost:3000/api/v1/restaurants/1/reservations \
+curl -X POST http://localhost:3000/api/v2/restaurants/1/reservations \
      -H "Content-Type: application/json" \
      -d '{"party_size": 4, "start_time": "2024-03-20T19:00:00Z", "duration": 3600}'
 ```
@@ -116,12 +116,12 @@ curl -X POST http://localhost:3000/api/v1/restaurants/1/reservations \
 
 #### List Occupied Tables:
 
-- **GET** `http://localhost:3000/api/v1/restaurants/:restaurant_id/tables/occupied?time=2024-03-11T16:28:08.000Z`
+- **GET** `http://localhost:3000/api/v2/restaurants/:restaurant_id/tables/occupied?time=2024-03-11T16:28:08.000Z`
 
 **Example Request:**
 
 ```bash
-curl -X GET "http://localhost:3000/api/v1/restaurants/1/tables/occupied?time=2024-03-11T16:28:08.000Z"
+curl -X GET "http://localhost:3000/api/v2/restaurants/1/tables/occupied?time=2024-03-11T16:28:08.000Z"
 ```
 
 **Example Response:**
