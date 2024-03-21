@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Reservations API V2', type: :request do
   let(:restaurant) { FactoryBot.create(:restaurant) }
-  let!(:table) { FactoryBot.create(:table, restaurant: restaurant) }
+  let!(:tables) { FactoryBot.create_list(:table, 3, restaurant: restaurant) }
   let(:valid_attributes) do
     {
       party_size: Table::MIN_SEATS_AMOUNT,
@@ -32,6 +32,26 @@ RSpec.describe 'Reservations API V2', type: :request do
       it 'adjusts the reservation time to opening hours' do
         expect(response).to have_http_status(:created)
         expect(Time.parse(json['start_time']).hour).to eq(Restaurant::START_OF_WORKING_HOURS)
+      end
+    end
+
+    context 'when the requested time is fully booked' do
+      before do
+        # Book all tables for the initially requested time slot
+        tables.each do |table|
+          FactoryBot.create(:reservation,
+                            table: table,
+                            start_time: valid_attributes[:start_time],
+                            end_time: (Time.parse(valid_attributes[:start_time]) + valid_attributes[:duration].seconds).iso8601)
+        end
+
+        post "/api/v2/restaurants/#{restaurant.id}/reservations", params: valid_attributes
+      end
+
+      it 'finds the next available slot and creates a new Reservation' do
+        expect(response).to have_http_status(:created)
+        # Verify that the reservation's start time has been adjusted to a later time
+        expect(Time.parse(json['start_time'])).to be > Time.parse(valid_attributes[:start_time])
       end
     end
 
