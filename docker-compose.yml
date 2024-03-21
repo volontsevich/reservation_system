@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+  web:
+    build: .
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -b '0.0.0.0'"
+    container_name: web
+    volumes:
+      - .:/app
+      - ./db:/app/db # Ensure SQLite3 database file is stored persistently
+    ports:
+      - "3000:3000"
+    stdin_open: true
+    tty: true
