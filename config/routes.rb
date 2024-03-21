@@ -1,3 +1,4 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+  post '/restaurants/:restaurant_id/reservations', to: 'reservations#create'
+  get '/restaurants/:restaurant_id/tables/occupied', to: 'tables#occupied'
 end

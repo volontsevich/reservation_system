@@ -3,7 +3,7 @@ services:
   web:
     build: .
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -b '0.0.0.0'"
-    container_name: web
+    container_name: web_0320
     volumes:
       - .:/app
       - ./db:/app/db # Ensure SQLite3 database file is stored persistently

@@ -10,15 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_03_21_000831) do
+ActiveRecord::Schema.define(version: 2024_03_21_012605) do
 
   create_table "reservations", force: :cascade do |t|
     t.integer "table_id", null: false
     t.integer "party_size"
     t.datetime "start_time"
-    t.integer "duration"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.datetime "end_time"
     t.index ["table_id"], name: "index_reservations_on_table_id"
   end
 
