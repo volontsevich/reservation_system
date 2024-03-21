@@ -23,8 +23,10 @@ class ReservationsController < ApplicationController
   end
 
   def parse_time
-    @start_time = Time.at(params[:start_time].to_i)
+    @start_time = Time.parse(params[:start_time])
     @end_time = @start_time + params[:duration].to_i.seconds
+  rescue ArgumentError
+    render json: { error: "Invalid time format" }, status: :bad_request
   end
 
   def find_available_table
