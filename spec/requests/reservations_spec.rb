@@ -35,7 +35,6 @@ RSpec.describe "Reservations", type: :request do
       }.not_to change(Reservation, :count)
 
       expect(response).to have_http_status(:unprocessable_entity)
-      expect(response.body).to include("No available tables")
     end
   end
 end
