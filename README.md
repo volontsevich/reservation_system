@@ -35,15 +35,32 @@ cd reservation_system
 
 2. **Build and run the application using Docker Compose:**
 
+#### First run
+
 ```bash
 docker compose build
 docker compose run web --rm rails db:create
 docker compose run web --rm rails db:migrate
 docker compose run web --rm rails db:seed
+
 docker compose up
 ```
 
-This command builds the Docker image for the application and starts the services defined in the docker-compose.yml file.
+These commands build the Docker image for the application, start the services defined in the docker-compose.yml file and
+preparing the DB and dummy data.
+
+#### Everyday usage
+
+```bash
+docker compose up
+docker compose stop
+```
+
+#### Debugging the application
+
+```bash
+docker compose run --rm web rails c`
+```
 
 ### API Endpoints
 
